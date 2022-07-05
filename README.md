@@ -1,6 +1,8 @@
 # GeoLock
 Our project, GeoLock, is a social app that encourages users to explore and share their experience of locations and areas around them. Users are able to search up possible locations they are interested in and see other user’s comments. In addition if they visit the location then they are able to comment on it. Once registered and logged in, users will be able to like, dislike, and favorite comments they find interesting and can find the posts they have liked and favorited on their profile page. 
 
+Check it Out Here: https://location-app-013-01.herokuapp.com/
+
 [![Watch the video](https://img.youtube.com/vi/ge318HafUEg/maxresdefault.jpg)](https://youtu.be/ge318HafUEg)
 
 ## Repository Organization
