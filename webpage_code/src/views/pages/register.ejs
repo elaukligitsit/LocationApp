@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/header') %>
+        
+        <link rel="stylesheet" type="text/css" href="../resources/css/loginpage.css" />
+        <script src= ../resources/js/loginpage.js></script>
+
+        <!-- <link href="../resources/css/signin.css" rel="stylesheet" /> -->
+      </head>
+    <body onload="openRegistration()" class="center text-center">
+        <div class="jumbotron text-center" style="margin-bottom:0">
+            <div class="container">
+                <h2>Registration</h2>
+                <p>
+                    Please fill out your information below.
+                </p>
+            </div>
+        </div>
+
+        <%- include('../partials/menu') %>
+        <div class="container-lg" style="margin-top: 2%;">
+            <% if (error) { %>
+                <div class="alert alert-danger"><%- message %></div>
+            <% } %>
+        </div>
+        <div class= "container-lg">
+            <form class="form-signin" action="/register" method="post">
+                <div class="form-group">
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    placeholder="Username"
+                    required="required"
+                    />
+                </div>
+                <div class="form-group">
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="email"
+                    placeholder="email@address.com"
+                    required="required"
+                    />
+                </div>
+                <div class="form-group">
+                    <input
+                    id="psw"
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    placeholder="Password"
+                    required="required"
+                    />
+                </div>
+                <div class="form-group">
+                    <input
+                    id="cpsw"
+                    type="password"
+                    class="form-control"
+                    name="confirm password"
+                    placeholder="Confirm Password"
+                    required="required"
+                    />
+                </div>
+                <div class="form-group">
+                    <button
+                    id="submit_button"
+                    class="btn btn-primary btn-block login-btn"
+                    onclick="onSubmissionClick()"
+                    disabled
+                    >
+                    Sign Up
+                    </button>
+                </div>
+                <div id="message" style="display: block">
+                    <h4>Password must meet the following requirements:</h4>
+                    <p id="lower" class="invalid"><b>Lowercase</b> letter</p>
+                    <p id="upper" class="invalid">
+                    <b>Capital (uppercase)</b> letter
+                    </p>
+                    <p id="number" class="invalid"><b>Number</b></p>
+                    <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+                    <p id="match" class="invalid">
+                    Passwords Match
+                    </p>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

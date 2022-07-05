@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/header') %>
+    <script src=../../resources/js/homeMap.js></script>
+  </head>
+
+  <body style="background-color: rgb(202, 231, 255);">
+  <div class="jumbotron text-center" style="margin-bottom:0">
+    <div class="container">
+      <h2 class="text-center">All Locations</h2>
+    </div>
+  </div>
+
+  <%- include('../partials/menu') %>
+
+  <div class="container-lg" style="margin-top: 4%; margin-bottom: 4%;">
+    <% if(message && !error) { %>
+      <div class="alert alert-warning">
+        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+        <span class="sr-only">Warning:</span>
+        <%- message %>
+      </div>
+    <% } %>
+    <% if(error) { %>
+      <div class="alert alert-danger">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Warning:</span>
+          <%- message %>
+      </div>
+    <% } %>
+  </div>
+  <div class="container">
+      <%
+      if (locations == '') {
+        var error = '<div class="alert alert-dark"> Your search failed to return any locations, please try a different keyword! </div>';
+      %>
+      <%- error %>
+      <% } 
+      else{
+        var title = '<h4 class="text-center">Locations</h4>';
+      %>
+        <%- title %>
+        <%}
+      %>
+      <%
+      if (locations) {
+          var cards = '';
+          var cols = 0;
+          
+      <!-- Iterate the items object & update the cards variable -->
+      locations.forEach(function(item){
+          if (cols == 3){
+            cards += '</div></br>';
+            cols = 0;
+          }
+          if (cols == 0){
+            cards += '<div class="card-group">';
+          }
+          cards += '<div class="card border-dark mb-3" style="width: 18rem; margin: 10px;"><div class="card-body"><h5 class="card-title">' + item.nameloc + '</h4><a href="/locations/'+item.location_id+'" class="btn btn-dark">Link to post</a><p class="card-text">' + item.blurb + '</p></div></div>';
+          cols++;
+      });
+          cards += '</div>';
+      %>
+      <%- cards %>
+      <% } %>
+  </div>
+  </body>
+<%- include('../partials/footer') %>

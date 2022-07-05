@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include('../partials/header') %>
+
+  <style>
+    .carousel-caption.d-none.d-md-block{
+      color: white;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+  </style>
+</head>
+
+<body style="background-color: rgb(202, 231, 255);">
+    <!--<iframe id="backgroundImage" src=".."></iframe>  to do here--> 
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <h2>GeoLock</h2>
+  <p>Here is some information about the GeoLock project and its devolopers.</p>
+</div>
+
+
+
+<%- include('../partials/menu') %>
+
+<!-- error and warning messages  -->
+<div class="container-lg" style="margin-top: 2%;">
+  <% if(error) { %>
+      <div class="alert alert-warning">
+        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        <%- message %>
+      </div>
+  <% } %>
+</div>
+
+
+<div class="container-sm" style="margin-bottom: 4%; margin-top: 4%;">
+    <h2>About us</h2>
+    <p style="font-size: 130%;">We designed GeoLock to allow users to interact with their surrounding environment in a new and unique way.
+        We hope that this app can help inspire users to explore where they are and create new experiences using the suggestions
+        and commented by others. Once registered and logged in, you will be able to post comments about their current location and 
+        save comments posted by other users. The search feature also allows for easy browsing of the existing 
+        comments and locations on GeoLock. 
+    </p>
+    <br>
+    <h3>Development Team:</h3>
+    <p>Owen Arnold</p>
+    <p>Even Laukli</p>
+    <p>Kyle Neff</p>
+    <p>Nolan Annis</p> 
+    <p>Yefan Wang</p>
+
+</div>
+
+</body>
+<footer class="fixed-bottom"> 
+	<div class="jumbotron text-center" style="margin-bottom:0">
+	  <a href="">
+		<img alt="" src="../../resources/img/favicon.ico"
+		width="40" height="40">
+	  </a>
+	  <p class="text-muted">&copy; GeoLock</p>
+	</div>
+	</footer>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/header') %>
+      </head>
+    <body style="background-color: rgb(202, 231, 255);">
+      
+      <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+              
+              <h1><%=my_title.nameloc%></h1>
+          </div>
+        </div>
+        <%- include('../partials/menu') %>
+
+
+        
+      <div class="container" id="map"></div>
+      <br>
+      <div class="container">
+      <div id="blurb">
+        <h4 class="text-center"><%=message.blurb%></h4>
+      </div>
+      </div>
+      <div class="container">
+        <br>
+        <h5 class="text-center">Comments</h5>
+            <div class="list-group">
+              
+              <% if (comments) {
+                var media ='';
+                comments.forEach(function(item){
+                  var badge = "likeBadge" + item.comment_id;
+                  var fav_badge = "favBadge" + item.comment_id;
+                  var like = "like" + item.comment_id;
+                  var dislike = "dislike" + item.comment_id;
+                  var favorite = "favorite" + item.comment_id;
+    
+                  media +='<div class="list-group-item list-group-item-action">';
+                  media +='<div class="d-flex w-100 justify-content-between">';
+                  media +='<h5 class="mb-1">'+ item.location_name +'</h5>';
+                  media +='</div><p class="mb-1">' + item.comment + '</p>';
+                  media +='<div class="d-flex flex-row bd-highlight mb-3">';
+                  media +='<div class="p-2 bd-highlight"><button type="radio" id="'+like+'" name="like" class="btn btn-default" title="Like this post" value="' + item.comment_id + '" onclick="addLike(' + item.comment_id + ')" ><span class="glyphicon glyphicon-thumbs-up"></span></button></div>';
+                  media +='<div class="p-2 bd-highlight"><span class="badge bg-success" id="'+badge+'">' + item.likes + '</span></div>';
+                  media +='<div class="p-2 bd-highlight"><button type="radio" id="'+dislike+'" name="dislike" class="btn btn-default" title="Dislike this post" value="' + item.comment_id + '" onclick="removeLike(' + item.comment_id + ')" ><span class="glyphicon glyphicon-thumbs-down"> </span></button></div>';
+                  media +='<div class="p-2 bd-highlight"><button type="radio" id="'+favorite+'" name="favorite" class="btn btn-default"  title="Favorite this post" value="' + item.comment_id + '" onclick="favorites(' + item.comment_id + ')" ><span class="glyphicon glyphicon-star" ></span></button></div>';
+                  media +='<div class="p-2 bd-highlight"><span class="badge bg-warning" id="'+fav_badge+'">' + item.favorites + '</span></div></div></div>';
+                  
+                   
+                }); %>
+                <%- media %>
+              <% } %>
+          </div>
+        <div class="jumbotron">
+          <form action="/post_comments/<%=loc_ID%>" method="post">
+
+            <div class="form-group row">
+              <div class="form-floating">
+                
+                <textarea class="form-control" placeholder="Leave a comment here" name="comments" id="comments" style="height: 50px"></textarea>
+              </div>
+            </div>
+            <button type="submit" id="subCont" class="btn btn-primary btn-block" disabled>Validate your presence to submit a comment for this location!</button>						
+          </form>
+        </div>
+      <link rel="stylesheet" type="text/css" href="../resources/css/EngineeringMap.css" />
+    </div>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+      <script type="text/javascript">
+        let map, infoWindow;
+        let longArr = "<%=longs1.longs%>".split(',');
+        let latArr = "<%=lats1.lats%>".split(',');
+        const latter = [];
+
+        for(var i = 1; i < longArr.length; i++){ //fills the latter array with lats and longs from db
+          latter.push({lat: parseFloat(latArr[i]), lng: parseFloat(longArr[i])});
+        }
+        
+        function initMap() {//createsa google map element centered on lat and long in first elements of array
+          map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: parseFloat(latArr[0]), lng: parseFloat(longArr[0])}, 
+            zoom: parseInt("<%=zoom1.zoom%>"),//zoom from zoom int in db
+          });
+
+          const engTriangle = new google.maps.Polygon({ paths: latter });//creates one polycon for containsLoc
+          const triangleCoordsShape = latter;
+          console.log(triangleCoordsShape);
+          const engTriangleShape = new google.maps.Polygon({//draws same polygon as above with colors
+            paths: triangleCoordsShape,
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: 0.05,
+          });
+
+          engTriangleShape.setMap(map);
+          infoWindow = new google.maps.InfoWindow();//info window for displaying user locaiton/message
+
+          const locationButton = document.createElement("button");
+
+          locationButton.textContent = "Validate Presence";//sets button for validating presence
+          locationButton.classList.add("custom-map-control-button");
+          map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+          locationButton.addEventListener("click", () => {
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(//gets users current locaiton
+                (position) => {
+                  const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                  };
+                  lngPos = new google.maps.LatLng(pos);//latlng object typecast for contLOC
+
+                  infoWindow.setPosition(pos);
+                  infoWindow.open(map);
+                  map.setCenter(pos);//draws actual map with info set above
+
+                  if (google.maps.geometry.poly.containsLocation(lngPos, engTriangleShape)){//checks if user is within polygon
+                    infoWindow.setContent("Share your experience!");
+
+                    document.getElementById("subCont").disabled = false;
+                    document.getElementById("subCont").innerHTML = "Submit";//activates submit button for posting to db
+
+                  }
+                  else {
+                    infoWindow.setContent("To submit a comment you must be present at the location, move closer or find another location");
+                  }
+                  
+                  
+                },
+                () => {
+                  handleLocationError(true, infoWindow, map.getCenter());
+                }
+              );
+            } else {
+              // Browser doesn't support Geolocation
+              handleLocationError(false, infoWindow, map.getCenter());
+            }
+          });
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+          infoWindow.setPosition(pos);
+          infoWindow.setContent(
+            browserHasGeolocation
+              ? "Error: The Geolocation service failed."
+              : "Error: Your browser doesn't support geolocation."
+          );
+          infoWindow.open(map);
+        }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzemV6hLuQoeXIIHK4um-7zFeS7nq0qgw&callback=initMap&libraries=geometry"></script>
+        
+      
+        </body>
+<%- include('../partials/footer') %>
+

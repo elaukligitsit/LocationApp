@@ -1,0 +1,63 @@
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+  <div class="container-fluid">
+    
+    <a class="navbar-brand" href="/homepage">GeoLock</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" href="/homepage">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/temp_comments">Comments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/allLocations">All Locations</a>
+        </li>
+      </ul>
+       
+      <% if(loggedin) { %>
+        <div class="nav-item dropdown navbar-right">
+          <button class="nav-link dropdown-toggle" href="#" id="profileMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+          <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="navbarScrollingDropdown">
+            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/favorites">Favorites</a></li>
+            <li><a class="dropdown-item" href="/userLikes">Likes</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <div class="container-sm">
+              <% if(loggedin) { %>
+                <form class="navbar-form navbar-right" action="/logout" method="get">
+                  <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-out"></span> Logout </button>
+                </form>
+              <% } %>
+              </div>
+            </li>
+          </ul>
+        </div>
+      <% } %>
+
+      <% if(!loggedin) { %>
+        <form class="navbar-form navbar-right" action="/loginpage" method="get">
+          <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-log-in"> </span> Login </button>
+        </form>
+      <% } %>
+
+      <form class="navbar-form navbar-right" action="/search" method="get">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search..." name="comments">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+  </div>
+</nav>

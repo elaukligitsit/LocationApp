@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/header') %>
+        <link rel="stylesheet" type="text/css" href="../resources/css/loginpage.css" />
+        <script src= ../resources/js/loginpage.js></script>
+        <!-- <link href="../resources/css/signin.css" rel="stylesheet" /> -->
+    </head>
+    <body class="center text-center">
+        <div class="jumbotron text-center" style="margin-bottom:0">
+            <div class="container">
+                <h2>Please sign into you account</h2>
+                <p>
+                    If you don't have an account, click register.
+                </p>
+            </div>
+        </div>
+
+        <%- include('../partials/menu') %>
+
+        <div class="container-lg" style="margin-top: 2%;">
+        <% if(message && !error) { %>
+                <div class="alert alert-success"><%- message %></div>
+        <% } %>
+        </div>
+
+        <div class="container-lg" style="margin-top: 2%;">
+            <% if(error) { %>
+                    <div class="alert alert-danger">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        <%- message %>
+                    </div>
+            <% } %>
+        </div>
+
+        <div class="text-center">
+            <a
+                href="/register"
+                class="btn btn-info"
+                >Register Here
+            </a>
+        </div>
+        <br>
+
+        <form class="form-signin" action="/login" method="post">
+            <label class="sr-only">Email address</label>
+            <input
+                id="email"
+                name="email"
+                type="email"
+                class="form-control"
+                placeholder="Email address"
+                required="required"
+            />
+            <label class="sr-only">Password</label>
+            <input
+                id="password"
+                name="password"
+                type="password"
+                class="form-control"
+                placeholder="Password"
+                required="required"
+            />
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me" /> Remember me |
+                </label>
+                <a href="#">Forgot Password?</a>
+            </div>
+            <button
+                id = "signin"
+                class="btn btn-info"
+            >
+            Sign in
+            </button>
+        </form>
+        </body>
+</html>

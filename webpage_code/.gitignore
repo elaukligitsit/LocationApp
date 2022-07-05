@@ -1,0 +1,6 @@
+
+# ignore all .env files
+.env
+
+# ignore node_modules. The .dockerignore should prevent these anyway, but JIC.
+node_modules/

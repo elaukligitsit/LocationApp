@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Comments Page</title>
+  <%- include('../partials/header') %>
+</head>
+
+<body style="background-color: rgb(202, 231, 255);">
+	<div class="jumbotron text-center">
+		<div class="container">
+		  <h2 class="text-center">All Comments</h2>
+		</div>
+	  </div>
+<%- include('../partials/menu') %>
+
+	<div class="container">
+    <br>
+    <h4 class="text-center">Comments</h4>
+        <div class="list-group">
+          
+          <% if (comments) {
+            var media ='';
+            comments.forEach(function(item){
+              var badge = "likeBadge" + item.comment_id;
+              var fav_badge = "favBadge" + item.comment_id;
+              var like = "like" + item.comment_id;
+              var dislike = "dislike" + item.comment_id;
+              var favorite = "favorite" + item.comment_id;
+
+              media +='<div class="list-group-item list-group-item-action">';
+              media +='<div class="d-flex w-100 justify-content-between">';
+              media +='<h4 class="mb-1"><a class="link-dark" href="/locations/'+item.location_id+'">'+ item.location_name +'</a></h4>';
+              media +='</div><p class="mb-1">' + item.comment + '</p>';
+              media +='<div class="d-flex flex-row bd-highlight mb-3">';
+              media +='<div class="p-2 bd-highlight"><button type="radio" id="'+like+'" name="like" class="btn btn-default" title="Like this post" value="' + item.comment_id + '" onclick="addLike(' + item.comment_id + ')" ><span class="glyphicon glyphicon-thumbs-up"></span></button></div>';
+              media +='<div class="p-2 bd-highlight"><span class="badge bg-success" id="'+badge+'">' + item.likes + '</span></div>';
+              media +='<div class="p-2 bd-highlight"><button type="radio" id="'+dislike+'" name="dislike" class="btn btn-default" title="Dislike this post" value="' + item.comment_id + '" onclick="removeLike(' + item.comment_id + ')" ><span class="glyphicon glyphicon-thumbs-down"> </span></button></div>';
+              media +='<div class="p-2 bd-highlight"><button type="radio" id="'+favorite+'" name="favorite" class="btn btn-default"  title="Favorite this post" value="' + item.comment_id + '" onclick="favorites(' + item.comment_id + ')" ><span class="glyphicon glyphicon-star" ></span></button></div>';
+              media +='<div class="p-2 bd-highlight"><span class="badge bg-warning" id="'+fav_badge+'">' + item.favorites + '</span></div></div></div>';
+              
+               
+            }); %>
+            <%- media %>
+          <% } %>
+      </div>
+		<div class="container-lg" style="margin-top: 2%;">
+			<% if(message && !error) { %>
+				<div class="alert alert-warning">
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+					<span class="sr-only">Warning:</span>
+					<%- message %>
+				</div>
+			<% } %>
+			<% if(error) { %>
+				<div class="alert alert-danger">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Error:</span>
+					<%- message %>
+				</div>
+			<% } %>
+		</div>
+	</div>
+</body>
+<%- include('../partials/footer') %>
