@@ -1,2 +1,0 @@
-Link to React Native tutorial (an option for UI framework)
-https://reactnative.dev/docs/getting-started
